@@ -1,10 +1,36 @@
 pipeline {
-    agent { docker { image 'maven:3.3.3' } }
-    stages {
-        stage('build') {
-            steps {
-                sh 'mvn --version'
-            }
-        }
-    }
+         agent any
+         stages {
+                 stage('Build') {
+                 steps {
+                     echo 'Hi, Folks. Starting to build the App.'
+                 }
+                 }
+                 stage('Test') {
+                 steps {
+                    input('Do you want to proceed?')
+                 }
+                 }
+                 stage('Deploy') {
+                 parallel { 
+                            stage('Deploy start ') {
+                           steps {
+                                echo "Start the deploy .."
+                           } 
+                           }
+                            stage('Deploying now') {
+                          
+                              steps {
+                                echo "Docker Created"
+                              }
+                           }
+                           }
+                           }
+                 stage('Prod') {
+                     steps {
+                                echo "App is Prod Ready"
+                              }
+                 
+              }
+}
 }
