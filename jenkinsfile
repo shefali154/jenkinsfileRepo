@@ -1,1 +1,45 @@
+pipeline {
+         agent any
+         environment {
+                APP_NAME = 'shef-App'
+                BUILD_NUMBER = "${env.BUILD_NUMBER}"
+                FAVOURITE_FRUIT = 'tomato'
+                }
+         stages {
+                 stage('Build') {
+                 steps {
+                     sh 'printenv | sort'
+                     echo 'Hi, Folks. Starting to build the App.'
+                 }
+                 }
+                 stage('Test') {
+                 steps {
+                    input('Do you want to proceed?')
+                 }
+                 }
+                 stage('Deploy') {
+                 parallel { 
+                            stage('Deploy start ') {
+                           steps {
+                                echo "Start the deploy .."
+                           } 
+                           }
+                            stage('Deploying now') {
+                          
+                              steps {
+                                echo "Docker Created"
+                              }
+                           }
+                           }
+                           }
+                 stage('Prod') {
+                     steps {
+                                sh 'echo My favourite fruit is ${FAVOURITE_FRUIT}'
+                                echo "App is Prod Ready"
+                              }
+                 
+              }
+}
+}
+
 
